@@ -13,6 +13,7 @@ int
 open_serial_port (void)
 {
 	int fd;
+	struct termios options;
 
 	/* Can try also without O_NDELAY. */
 	fd = open (DEVICE_FILE, O_RDWR | O_NOCTTY | O_NDELAY);
@@ -24,6 +25,17 @@ open_serial_port (void)
 	{
 		fcntl (fd, F_SETFL, 0);
 	}
+
+	tcgetattr (fd, &options);
+	if (cfgetospeed (&options) == B9600)
+	{
+		printf ("OK, 9600 baud\n");
+	}
+	else
+	{
+		printf ("KO\n");
+	}
+
 
 	return fd;
 }

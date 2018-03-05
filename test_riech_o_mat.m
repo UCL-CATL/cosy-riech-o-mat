@@ -6,5 +6,5 @@
 serial_port = serial('/dev/ttyS0', ...
                      'Timeout', 1);
 fopen(serial_port);
-fprintf(serial_port, '\x55\x56\x00\x00\x00\x01\x01\xad');
+fprintf(serial_port, '\x55\x56\x00\x00\x00\x02\x01\xae');
 fclose(serial_port);

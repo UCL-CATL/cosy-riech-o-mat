@@ -42,7 +42,7 @@ main (void)
 	}
 
 
-	n_bytes_written = write (fd, "\x55\x56\x00\x00\x00\x01\x01\xad", 8);
+	n_bytes_written = write (fd, "\x55\x56\x00\x00\x00\x02\x01\xae", 8);
 	if (n_bytes_written < 0)
 	{
 		perror ("write() failed - ");

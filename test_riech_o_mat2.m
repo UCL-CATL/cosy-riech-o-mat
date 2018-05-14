@@ -6,5 +6,11 @@
 serial_port = serial('/dev/ttyS0', ...
                      'Timeout', 1);
 fopen(serial_port);
-fprintf(serial_port, '\x55\x56\x00\x00\x00\x02\x01\xae');
+
+% The numbers are written in decimal.
+% Open channel 2.
+% It works!
+data = [85, 86, 0, 0, 0, 2, 1, 174];
+fwrite(serial_port, data);
+
 fclose(serial_port);

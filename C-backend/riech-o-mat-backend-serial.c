@@ -19,13 +19,15 @@ print_usage (const char *program)
 static gboolean
 is_valves_positions_input_valid (const char *valves_positions)
 {
+	gboolean basic_error = FALSE;
 	int i;
 
 	g_assert (valves_positions != NULL);
 
 	if (strlen (valves_positions) != 5)
 	{
-		return FALSE;
+		basic_error = TRUE;
+		goto handle_basic_error;
 	}
 
 	for (i = 0; i < 5; i++)
@@ -33,8 +35,25 @@ is_valves_positions_input_valid (const char *valves_positions)
 		if (valves_positions[i] != '0' &&
 		    valves_positions[i] != '1')
 		{
-			return FALSE;
+			basic_error = TRUE;
+			goto handle_basic_error;
 		}
+	}
+
+handle_basic_error:
+	if (basic_error)
+	{
+		g_printerr ("Invalid valves_positions, must contain five 0's and 1's.\n");
+		return FALSE;
+	}
+
+	if (g_str_equal (valves_positions, "10000"))
+	{
+		g_printerr ("Invalid valves_positions, \"10000\" opens *only* the airflow valve, "
+			    "which can destroy the olfactometer because the pressure builds up.\n"
+			    "So \"10000\" has not been executed.\n"
+			    "See section 2. “Understanding your Riech-O-Mat” in the manual for more details.\n");
+		return FALSE;
 	}
 
 	return TRUE;
@@ -166,7 +185,7 @@ main (int    argc,
 	valves_positions = argv[1];
 	if (!is_valves_positions_input_valid (valves_positions))
 	{
-		g_printerr ("Invalid valves_positions, must contain five 0's and 1's.\n");
+		g_printerr ("\n");
 		print_usage (argv[0]);
 		return EXIT_FAILURE;
 	}

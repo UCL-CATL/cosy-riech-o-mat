@@ -1,4 +1,5 @@
 #include <glib.h>
+#include <locale.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -175,6 +176,8 @@ main (int    argc,
 	const char *valves_positions;
 	int fd;
 	int valve_num;
+
+	setlocale (LC_ALL, "");
 
 	if (argc != 2)
 	{

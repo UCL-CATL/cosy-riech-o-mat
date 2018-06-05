@@ -18,12 +18,14 @@ print_usage (const char *program)
 }
 
 static gboolean
-is_valves_positions_input_valid (const char *valves_positions)
+is_valves_positions_input_valid (const char  *valves_positions,
+				 GError     **error)
 {
 	gboolean basic_error = FALSE;
 	int i;
 
-	g_assert (valves_positions != NULL);
+	g_return_val_if_fail (valves_positions != NULL, FALSE);
+	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	if (strlen (valves_positions) != 5)
 	{
@@ -44,16 +46,22 @@ is_valves_positions_input_valid (const char *valves_positions)
 handle_basic_error:
 	if (basic_error)
 	{
-		g_printerr ("Invalid valves_positions, must contain five 0's and 1's.\n");
+		g_set_error (error,
+			     G_NUMBER_PARSER_ERROR,
+			     G_NUMBER_PARSER_ERROR_INVALID,
+			     "Invalid valves_positions, must contain five 0's and 1's.");
 		return FALSE;
 	}
 
 	if (g_str_equal (valves_positions, "10000"))
 	{
-		g_printerr ("Invalid valves_positions, \"10000\" opens *only* the airflow valve, "
-			    "which can destroy the olfactometer because the pressure builds up.\n"
-			    "So \"10000\" has not been executed.\n"
-			    "See section 2. “Understanding your Riech-O-Mat” in the manual for more details.\n");
+		g_set_error (error,
+			     G_NUMBER_PARSER_ERROR,
+			     G_NUMBER_PARSER_ERROR_INVALID,
+			     "Invalid valves_positions, \"10000\" opens *only* the airflow valve, "
+			     "which can destroy the olfactometer because the pressure builds up.\n"
+			     "So \"10000\" has not been executed.\n"
+			     "See section 2. “Understanding your Riech-O-Mat” in the manual for more details.");
 		return FALSE;
 	}
 
@@ -176,6 +184,7 @@ main (int    argc,
 	const char *valves_positions;
 	int fd;
 	int valve_num;
+	GError *error = NULL;
 
 	setlocale (LC_ALL, "");
 
@@ -186,10 +195,12 @@ main (int    argc,
 	}
 
 	valves_positions = argv[1];
-	if (!is_valves_positions_input_valid (valves_positions))
+	is_valves_positions_input_valid (valves_positions, &error);
+	if (error != NULL)
 	{
-		g_printerr ("\n");
+		g_printerr ("%s\n\n", error->message);
 		print_usage (argv[0]);
+		g_clear_error (&error);
 		return EXIT_FAILURE;
 	}
 

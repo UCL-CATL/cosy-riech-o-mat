@@ -49,7 +49,8 @@ handle_basic_error:
 		g_set_error (error,
 			     G_NUMBER_PARSER_ERROR,
 			     G_NUMBER_PARSER_ERROR_INVALID,
-			     "Invalid valves_positions, must contain five 0's and 1's.");
+			     "“%s” is an invalid valves_positions, it must contain five 0's and 1's.",
+			     valves_positions);
 		return FALSE;
 	}
 
@@ -58,9 +59,9 @@ handle_basic_error:
 		g_set_error (error,
 			     G_NUMBER_PARSER_ERROR,
 			     G_NUMBER_PARSER_ERROR_INVALID,
-			     "Invalid valves_positions, \"10000\" opens *only* the airflow valve, "
+			     "“10000” is an invalid valves_positions, because it opens *only* the airflow valve, "
 			     "which can destroy the olfactometer because the pressure builds up.\n"
-			     "So \"10000\" has not been executed.\n"
+			     "So “10000” has not been executed.\n"
 			     "See section 2. “Understanding your Riech-O-Mat” in the manual for more details.");
 		return FALSE;
 	}

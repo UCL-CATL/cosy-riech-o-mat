@@ -53,7 +53,6 @@ main (void)
 		return EXIT_FAILURE;
 	}
 
-
 	n_bytes_written = write (fd, "\x55\x56\x00\x00\x00\x02\x01\xae", 8);
 	if (n_bytes_written < 0)
 	{

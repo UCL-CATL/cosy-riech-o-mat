@@ -3,6 +3,9 @@ programs = [
         ['riech-o-mat-backend-serial', [
                 'crom-serial.c',
                 'riech-o-mat-backend-serial.c'
+        ]],
+        ['cosy-riech-o-mat', [
+                'cosy-riech-o-mat.c'
         ]]
 ]
 

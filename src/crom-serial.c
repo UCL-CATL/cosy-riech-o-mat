@@ -65,14 +65,10 @@ crom_serial_open_serial_port (void)
 {
 	int fd;
 
-	fd = open (DEVICE_FILE, O_RDWR | O_NOCTTY | O_NDELAY);
+	fd = open (DEVICE_FILE, O_WRONLY | O_NOCTTY);
 	if (fd == -1)
 	{
 		perror ("Unable to open the serial port “" DEVICE_FILE "” - ");
-	}
-	else
-	{
-		fcntl (fd, F_SETFL, 0);
 	}
 
 	return fd;

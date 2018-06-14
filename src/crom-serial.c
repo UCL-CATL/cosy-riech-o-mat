@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <time.h>
 
 #define DEVICE_FILE "/dev/ttyS0"
 
@@ -165,6 +166,32 @@ close_valve (int fd,
 	return check_n_bytes_written (n_bytes_written);
 }
 
+static void
+small_sleep (void)
+{
+	/* No sleep: KO, some valves not switched.
+	 * 1ms: KO
+	 * 2ms: OK
+	 * 3ms: OK
+	 * 4ms: OK
+	 * 5ms: OK
+	 * 10ms: OK
+	 * 1s: OK
+	 *
+	 * "OK" means tested at least 3 times the following sequence:
+	 * 00000 -> 11111 -> 00000.
+	 *
+	 * Although 2ms is OK, take some margin, maybe 2ms sometimes fails but
+	 * more rarely.
+	 */
+	struct timespec sleep_time = { 0, 4 * 1000 * 1000 }; /* 4 ms */
+
+	if (nanosleep (&sleep_time, NULL) == -1)
+	{
+		perror ("Interrupted during my sleep - ");
+	}
+}
+
 void
 crom_serial_send_valves_positions (int         fd,
 				   const char *valves_positions)
@@ -176,6 +203,8 @@ crom_serial_send_valves_positions (int         fd,
 
 	for (valve_num = 0; valve_num < 5; valve_num++)
 	{
+		small_sleep ();
+
 		/* FIXME check return value of open/close_valve()? */
 		if (valves_positions[valve_num] == '1')
 		{
@@ -186,6 +215,8 @@ crom_serial_send_valves_positions (int         fd,
 			close_valve (fd, valve_num);
 		}
 	}
+
+	small_sleep ();
 }
 
 /* Returns TRUE on success, FALSE otherwise. */

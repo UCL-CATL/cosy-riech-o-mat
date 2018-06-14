@@ -70,7 +70,7 @@ handle_basic_error:
 }
 
 /* Returns the file descriptor, or -1 on failure. */
-int
+static int
 open_serial_port (void)
 {
 	int fd;

@@ -9,7 +9,7 @@
 #define DEVICE_FILE "/dev/ttyS0"
 
 /* Returns the file descriptor on success or -1 on error. */
-int
+static int
 open_serial_port (void)
 {
 	int fd;

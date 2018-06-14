@@ -11,7 +11,7 @@
 
 #define DEVICE_FILE_PARALLEL_PORT "/dev/parport0"
 
-int
+static int
 open_parallel_port (void)
 {
 	int fd;
@@ -50,7 +50,7 @@ open_parallel_port (void)
 	return fd;
 }
 
-void
+static void
 close_parallel_port (int fd)
 {
 	int result;

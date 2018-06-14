@@ -1,6 +1,9 @@
 programs = [
         # executable name, sources
-        ['riech-o-mat-backend-serial', ['riech-o-mat-backend-serial.c']]
+        ['riech-o-mat-backend-serial', [
+                'crom-serial.c',
+                'riech-o-mat-backend-serial.c'
+        ]]
 ]
 
 foreach prog : programs

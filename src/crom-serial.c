@@ -68,7 +68,7 @@ crom_serial_open_serial_port (void)
 	fd = open (DEVICE_FILE, O_RDWR | O_NOCTTY | O_NDELAY);
 	if (fd == -1)
 	{
-		perror ("Unable to open " DEVICE_FILE " - ");
+		perror ("Unable to open the serial port “" DEVICE_FILE "” - ");
 	}
 	else
 	{
@@ -83,12 +83,13 @@ check_n_bytes_written (ssize_t n_bytes_written)
 {
 	if (n_bytes_written < 0)
 	{
-		perror ("write() failed - ");
+		perror ("Serial communication: write() failed - ");
 		return FALSE;
 	}
 	else if (n_bytes_written != 8)
 	{
-		g_printerr ("write() failed: %ld bytes written, should be 8.\n",
+		g_printerr ("Serial communication: write() failed: "
+			    "%ld bytes written, should be 8.\n",
 			    n_bytes_written);
 		return FALSE;
 	}
@@ -199,7 +200,7 @@ crom_serial_close_serial_port (int fd)
 
 	if (close (fd) == -1)
 	{
-		perror ("close() failed - ");
+		perror ("Failed to close the serial port - ");
 		return FALSE;
 	}
 

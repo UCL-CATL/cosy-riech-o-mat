@@ -65,20 +65,19 @@ small_sleep (void)
 {
 	/* No sleep: KO, some valves not switched.
 	 * 1ms: KO
-	 * 2ms: OK
-	 * 3ms: OK
-	 * 4ms: OK
-	 * 5ms: OK
-	 * 10ms: OK
-	 * 1s: OK
+	 * 10ms: KO
+	 * 20ms: OK
+	 * 30ms: OK
+	 * 50ms: OK
 	 *
-	 * "OK" means tested at least 3 times the following sequence:
+	 * "OK" means tested the following sequence at least 3 times:
 	 * 00000 -> 11111 -> 00000.
 	 *
-	 * Although 2ms is OK, take some margin, maybe 2ms sometimes fails but
+	 * Although 20ms is OK, take some margin, maybe 20ms sometimes fails but
 	 * more rarely.
 	 */
-	struct timespec sleep_time = { 0, 4 * 1000 * 1000 }; /* 4 ms */
+	const int n_milliseconds = 30;
+	struct timespec sleep_time = { 0, n_milliseconds * 1000 * 1000 };
 
 	if (nanosleep (&sleep_time, NULL) == -1)
 	{

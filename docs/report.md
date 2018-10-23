@@ -51,3 +51,20 @@ Note: the EEG operates at 1kHz, so the data pin needs to be at 5V during at
 least 1ms (if it is less than 1ms the EEG might not see the trigger). The
 valves are opened during much more than 1ms (e.g. 333ms or 1s), so no problem.
 Also, the EEG recognizes the trigger on the rising edge.
+
+Fork of upstream code
+---------------------
+
+The upstream riech-o-mat code is
+[here](https://github.com/sommeru/riech-o-mat). Our fork is
+[here](https://github.com/UCLouvain-IoNS-CATL/riech-o-mat) on the “uclouvain”
+branch. See the commits for more details.
+
+Computer installation
+---------------------
+
+The upstream riech-o-mat code runs on Linux, so we use Linux too.
+
+We have automated almost all the installation with Kickstart and Ansible, see
+the files “olfacto” in
+[cosy-linux-automation](https://github.com/UCLouvain-IoNS-CATL/cosy-linux-automation).

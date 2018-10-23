@@ -1,6 +1,17 @@
 #include <glib.h>
 #include <locale.h>
 
+/* Beginning of a command line program to execute a punchcard file.
+ * It was intended to use it to send the trigger out to the EEG from the
+ * parallel port of the computer (doing it from riech-o-mat-backend would maybe
+ * be more difficult or less ideal, since a delay is probably needed, so another
+ * process would maybe need to be launched to not add the delay to
+ * riech-o-mat-backend).
+ * But we have canceled this idea, since it is possible to have a trigger out
+ * unit directly connected to the Riech-O-Mat (with a parallel port too to have
+ * the information of the opened channels).
+ */
+
 /* The minimum value for line_duration_ms (so in milliseconds). Maybe a too low
  * value can destroy the olfactometer, I don't know. In case of doubt, it's
  * better not to try :-)

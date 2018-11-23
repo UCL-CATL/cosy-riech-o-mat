@@ -66,5 +66,4 @@ Computer installation
 The upstream riech-o-mat code runs on Linux, so we use Linux too.
 
 We have automated almost all the installation with Kickstart and Ansible, see
-the files “olfacto” in
 [cosy-linux-automation](https://github.com/UCLouvain-IoNS-CATL/cosy-linux-automation).
